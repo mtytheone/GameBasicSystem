@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Label text="{GAME}_{BUILDTYPE}_{VERSION}_{DATE}_{TARGET}" name="Label" style="align-self: flex-end; -unity-text-outline-color: rgba(255, 255, 255, 0); font-size: 22px; -unity-font-style: bold; color: rgba(108, 108, 109, 0.35); -unity-text-outline-width: 0; top: 95%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+</ui:UXML>

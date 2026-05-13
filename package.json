@@ -1,0 +1,26 @@
+{
+    "name": "com.hatzelaboratory.gamebasicsystem",
+    "version": "1.0.0",
+    "displayName": "HatzeGameBasicSystem",
+    "description": "HatzeLab BasicSystem Package.\nRequires UniTask (install separately via manifest.json):\nhttps://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+    "unity": "6000.0",
+    "url": "https://x.com/kohu_vr",
+    "documentationUrl": "https://github.com/mtytheone/GameBasicSystem/blob/master/README.md",
+    "changelogUrl": "https://github.com/mtytheone/GameBasicSystem/commits/master/",
+    "author": {
+        "name": "Hatze Laboratory",
+        "email": "king.hatze@gmail.com",
+        "url": "https://x.com/kohu_vr"
+    },
+    "keywords": [
+        "Script",
+        "System",
+        "Game",
+        "Basic"
+    ],
+    "category": "HatzeLaboratory",
+    "dependencies": {
+        "com.unity.addressables": "2.2.2",
+        "com.unity.inputsystem": "1.13.1"
+    }
+}

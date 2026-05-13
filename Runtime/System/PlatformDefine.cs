@@ -1,0 +1,134 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+using UnityEngine;
+
+namespace HatzeLaboratory.GameBasicSystem.Runtime.System
+{
+    public static class PlatformDefine
+    {
+        public enum PlatformType
+        {
+            Mac,
+            Windows,
+            iOS,
+            Android,
+            Linux,
+            WebGL,
+            UWP,
+            PS4,
+            XboxOne,
+            Switch,
+            PS5,
+            VisionOS,
+            Unknown
+        }
+
+
+        public static string GetPlatformName(RuntimePlatform platform)
+        {
+            switch (platform)
+            {
+                case RuntimePlatform.OSXEditor:
+                case RuntimePlatform.OSXPlayer:
+                case RuntimePlatform.OSXServer:
+                case RuntimePlatform.QNXArm32:
+                case RuntimePlatform.QNXArm64:
+                case RuntimePlatform.QNXX64:
+                case RuntimePlatform.QNXX86:
+                    return PlatformType.Mac.ToString();
+
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
+                case RuntimePlatform.WindowsServer:
+                    return PlatformType.Windows.ToString();
+
+                case RuntimePlatform.IPhonePlayer:
+                    return PlatformType.iOS.ToString();
+
+                case RuntimePlatform.Android:
+                    return PlatformType.Android.ToString();
+
+                case RuntimePlatform.LinuxPlayer:
+                case RuntimePlatform.LinuxEditor:
+                case RuntimePlatform.LinuxServer:
+                    return PlatformType.Linux.ToString();
+
+                case RuntimePlatform.WebGLPlayer:
+                    return PlatformType.WebGL.ToString();
+
+                case RuntimePlatform.WSAPlayerARM:
+                case RuntimePlatform.WSAPlayerX64:
+                case RuntimePlatform.WSAPlayerX86:
+                    return PlatformType.UWP.ToString();
+
+                case RuntimePlatform.PS4:
+                    return PlatformType.PS4.ToString();
+
+                case RuntimePlatform.XboxOne:
+                    return PlatformType.XboxOne.ToString();
+
+                case RuntimePlatform.Switch:
+                    return PlatformType.Switch.ToString();
+                
+                case RuntimePlatform.PS5:
+                    return PlatformType.PS5.ToString();
+
+                case RuntimePlatform.VisionOS:
+                    return PlatformType.VisionOS.ToString();
+
+                default:
+                    return PlatformType.Unknown.ToString();
+            }
+        }
+
+#if UNITY_EDITOR
+        public static string GetPlatformName(BuildTarget platform)
+        {
+            switch (platform)
+            {
+                case BuildTarget.StandaloneOSX:
+                    return PlatformType.Mac.ToString();
+
+                case BuildTarget.StandaloneWindows:
+                case BuildTarget.StandaloneWindows64:
+                    return PlatformType.Windows.ToString();
+
+                case BuildTarget.iOS:
+                    return PlatformType.iOS.ToString();
+
+                case BuildTarget.Android:
+                    return PlatformType.Android.ToString();
+
+                case BuildTarget.WebGL:
+                    return PlatformType.WebGL.ToString();
+
+                case BuildTarget.WSAPlayer:
+                    return PlatformType.UWP.ToString();
+
+                case BuildTarget.StandaloneLinux64:
+                    return PlatformType.Linux.ToString();
+
+                case BuildTarget.PS4:
+                    return PlatformType.PS4.ToString();
+
+                case BuildTarget.XboxOne:
+                    return PlatformType .XboxOne.ToString();
+
+                case BuildTarget.Switch:
+                    return PlatformType.Switch.ToString();
+
+                case BuildTarget.PS5:
+                    return PlatformType.PS5.ToString();
+
+                case BuildTarget.VisionOS:
+                    return PlatformType.VisionOS.ToString();
+
+                default:
+                    return PlatformType.Unknown.ToString();
+            }
+        }
+#endif
+    }
+}

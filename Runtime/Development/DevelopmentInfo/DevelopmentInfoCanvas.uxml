@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="top: 0.3%; right: 0.2%; background-color: rgba(0, 0, 0, 0.76); width: 35%; height: 30%; position: absolute; flex-grow: 0;">
+        <ui:Label text="Development Info" style="color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=71e80dcc0b6045743be6373e2fbb631a&amp;type=3#NotInter-Regular&quot;); -unity-font-style: normal; -unity-text-align: upper-center; font-size: 12%;" />
+        <ui:VisualElement name="DevelopmentLabelList" style="flex-shrink: 0;" />
+    </ui:VisualElement>
+</ui:UXML>
