@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using HatzeLaboratory.GameBasicSystem.Runtime.Backend.System.UI.Interface;
+using HatzeLaboratory.GameBasicSystem.Runtime.UI.Interface;
 using HatzeLaboratory.GameBasicSystem.Runtime.System;
 using HatzeLaboratory.GameBasicSystem.Runtime.Core;
 using System.Collections.Generic;
@@ -9,8 +9,12 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace HatzeLaboratory.GameBasicSystem.Runtime.Backend.System.UI
+namespace HatzeLaboratory.GameBasicSystem.Runtime.UI
 {
+    /// <summary>
+    /// Addressables を使ってモーダル UI を管理するシングルトンクラス。
+    /// モーダルはスタック方式で管理され、<see cref="ShowModal"/> で表示、<see cref="HideTopModal"/> で最前面を非表示にします。
+    /// </summary>
     public sealed class ModalManager : SingletonBehaviour<ModalManager>
     {
         [SerializeField]
@@ -20,6 +24,11 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Backend.System.UI
         private readonly List<IModal> _loadedModalObjectList = new();
         private readonly Dictionary<string, LoadModalData> _loadedModalDataList = new();
 
+        /// <summary>
+        /// 指定した名前のモーダルを表示します。既にインスタンスがある場合は再利用されます。
+        /// </summary>
+        /// <param name="modalName">Project Settings > GameBasicSystem に登録されたモーダル名</param>
+        /// <returns>表示された <see cref="IModal"/>。表示に失敗した場合は <c>null</c>。</returns>
         public IModal ShowModal(string modalName)
         {
             if (_loadedModalDataList.TryGetValue(modalName, out LoadModalData loadModalData))
@@ -78,6 +87,9 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Backend.System.UI
             return null;
         }
 
+        /// <summary>
+        /// スタックの最前面にあるモーダルを非表示
+        /// </summary>
         public void HideTopModal()
         {
             if (GetModalCount() < 1)
@@ -90,11 +102,21 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Backend.System.UI
             modal.Hide();
         }
 
+        /// <summary>
+        /// 指定した型のモーダルが現在表示されているかどうかを取得
+        /// </summary>
+        /// <typeparam name="T">確認するモーダルの型</typeparam>
+        /// <returns>表示中であれば <c>true</c></returns>
         public bool IsModalShown<T>() where T : IModal
         {
             return _viewModalStack.Any(modal => modal.GetType() == typeof(T));
         }
 
+        /// <summary>
+        /// 指定した型のモーダルがスタックの最前面にあるかどうかを取得
+        /// </summary>
+        /// <typeparam name="T">確認するモーダルの型</typeparam>
+        /// <returns>最前面にあれば <c>true</c></returns>
         public bool IsModalShownAtTop<T>() where T : IModal
         {
             if (GetModalCount() < 1)
@@ -106,6 +128,10 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Backend.System.UI
             return topModal.GetType() == typeof(T);
         }
 
+        /// <summary>
+        /// 現在表示中のモーダルの数を取得
+        /// </summary>
+        /// <returns>表示中のモーダル数</returns>
         public int GetModalCount()
         {
             return _viewModalStack.Count;

@@ -1,12 +1,19 @@
 using Cysharp.Threading.Tasks;
 using HatzeLaboratory.GameBasicSystem.Runtime.Core;
 using HatzeLaboratory.GameBasicSystem.Runtime.SaveData.Interface;
+using HatzeLaboratory.GameBasicSystem.Runtime.System;
 using System;
+using System.IO;
 using System.Threading;
 using UnityEngine;
 
 namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
 {
+    /// <summary>
+    /// セーブデータの管理基底クラス。デフォルトでは、JSONシリアライズ・GZip圧縮・AES暗号化を組み合わせてデータを保存・読み込みます。
+    /// このクラスを継承し、セーブデータ型を <typeparamref name="T"/> に指定してください。
+    /// </summary>
+    /// <typeparam name="T">セーブデータの型。引数のないコンストラクタを持つ参照型である必要があります。</typeparam>
     public class SaveDataManagerBase<T> : Singleton<SaveDataManagerBase<T>> where T : class, new()
     {
         private T _saveData;
@@ -15,16 +22,30 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
         private ICryptor _cryptor;
         private IStreamer _streamer;
 
+        /// <summary>
+        /// ProjectSettings > GameBasicSystem で設定された暗号化キーを使用してインスタンスを初期化します。
+        /// </summary>
+        public SaveDataManagerBase() : this(null, null, null, null) { }
 
-        public SaveDataManagerBase()
+        /// <summary>
+        /// 依存関係を明示的に指定してインスタンスを初期化します。<c>null</c> を渡した引数はデフォルト実装が使用されます。
+        /// </summary>
+        /// <param name="serializer">保存データを文字列に変換するためのシリアライザ。デフォルトでは、<see cref="JsonSerializer{T}"/>を使用しています。</param>
+        /// <param name="compressor">バイトデータのコンプレッサ。デフォルトでは、<see cref="GZipCompressor"/>を使用しています。</param>
+        /// <param name="cryptor">暗号化/復号化ツール。デフォルトでは、ProjectSettingsのキーを用いて<see cref="AESCryptor"/>が使用されます。</param>
+        /// <param name="streamer">ファイルI/Oハンドラ。デフォルトでは、<see cref="DataStreamer"/>が使用されます。</param>
+        public SaveDataManagerBase(ISerializer<T> serializer = null, ICompressor compressor = null, ICryptor cryptor = null, IStreamer streamer = null)
         {
-            _serializer = new JsonSerializer<T>();
-            _compresser = new GZipCompressor();
-            _cryptor = new AESCryptor();
-            _streamer = new DataStreamer();
+            _serializer = serializer ?? new JsonSerializer<T>();
+            _compresser = compressor ?? new GZipCompressor();
+            _streamer = streamer ?? new DataStreamer();
+            _cryptor = cryptor ?? CreateDefaultCryptor();
         }
 
-        public void SaveSync()
+        /// <summary>
+        /// セーブデータをシリアライズ・圧縮・暗号化してディスクに書き込みします。
+        /// </summary>
+        public void Save()
         {
             string json = _serializer.Serialize(_saveData);
             byte[] compressed = _compresser.Compress(json);
@@ -33,6 +54,10 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
             Debug.Log("SaveData Save Complete.");
         }
 
+        /// <summary>
+        /// セーブデータをシリアライズ・圧縮・暗号化してディスクに非同期書き込みします。
+        /// </summary>
+        /// <param name="cancellationtoken">キャンセル用のトークン</param>
         public async UniTask SaveAsync(CancellationToken cancellationtoken = default)
         {
             try
@@ -60,7 +85,12 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
             }
         }
 
-        public bool LoadSync()
+        /// <summary>
+        /// ディスクからデータを読み込み、復号・解凍・デシリアライズします。
+        /// ファイルが存在しない、またはデータが破損している場合は新規データを生成して <c>false</c> を返します。
+        /// </summary>
+        /// <returns>ロード成功時は<c>true</c>を返し、そうでない場合は<c>false</c>を返します。</returns>
+        public bool Load()
         {
             byte[] encryptedData = _streamer.Load();
             if (encryptedData == null)
@@ -69,13 +99,33 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
                 return false;
             }
 
-            byte[] decrypted = _cryptor.Decrypt(encryptedData);
-            string json = _compresser.Decompress(decrypted);
-            _saveData = _serializer.Deserialize(json);
-            Debug.Log("Load Complete.");
-            return true;
+            try
+            {
+                byte[] decrypted = _cryptor.Decrypt(encryptedData);
+                string json = _compresser.Decompress(decrypted);
+                _saveData = _serializer.Deserialize(json);
+                Debug.Log("Load Complete.");
+                return true;
+            }
+            catch (InvalidDataException e)
+            {
+                Debug.LogError($"Failed to load data. Initialize data.\n{e.Message}\n{e.StackTrace}");
+                CreateNewSaveData();
+                return false;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load data.\n{e.Message}\n{e.StackTrace}");
+                return false;
+            }
         }
 
+        /// <summary>
+        /// ディスクからデータを読み込み、復号・解凍・デシリアライズします。
+        /// ファイルが存在しない、またはデータが破損している場合は新規データを生成して <c>false</c> を返します。
+        /// </summary>
+        /// <param name="cancellationtoken">キャンセル用のトークン</param>
+        /// <returns>ロード成功時は<c>true</c>を返し、そうでない場合は<c>false</c>を返します。</returns>
         public async UniTask<bool> LoadAsync(CancellationToken cancellationtoken = default)
         {
             try
@@ -104,6 +154,11 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
                     Debug.LogError($"Failed to load data.\n{e.Message}\n{e.StackTrace}");
                 }
             }
+            catch (InvalidDataException e)
+            {
+                Debug.LogError($"Failed to load data. Initialize data.\n{e.Message}\n{e.StackTrace}");
+                CreateNewSaveData();
+            }
             catch (Exception e)
             {
                 Debug.LogError($"Failed to load data.\n{e.Message}\n{e.StackTrace}");
@@ -112,6 +167,11 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
             return false;
         }
 
+        /// <summary>
+        /// 現在読み込まれているセーブデータを返します。
+        /// このメソッドを呼ぶ前に <see cref="Load"/> または <see cref="LoadAsync"/> を実行してください。
+        /// </summary>
+        /// <returns>ロード済みであればセーブデータインスタンス、そうでなければ<c>null</c></returns>
         public T GetSaveData()
         {
             if (_saveData == null)
@@ -123,9 +183,30 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
             return _saveData;
         }
 
+        /// <summary>
+        /// セーブデータを <typeparamref name="T"/> の新しいデフォルトインスタンスで初期化します。
+        /// </summary>
         public void CreateNewSaveData()
         {
             _saveData = new T();
+        }
+
+        private static ICryptor CreateDefaultCryptor()
+        {
+            var settings = GameBasicSystemSettingData.Instance;
+            if (!settings)
+            {
+                throw new InvalidOperationException("GameBasicSystemSettingData is not found." +
+                                                    " Please configure it in \"Project Settings > GameBasicSystem\"");
+            }
+
+            if (string.IsNullOrEmpty(settings.SaveDataEncryptionKey))
+            {
+                throw new InvalidOperationException("SaveDataEncryptionKey is not set or is not 32 bytes. " +
+                                                    "Please configure it in \"Project Settings > GameBasicSystem.\"");
+            }
+
+            return new AESCryptor(settings.SaveDataEncryptionKey);
         }
     }
 }

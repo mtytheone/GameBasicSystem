@@ -11,11 +11,22 @@ using UnityEngine.SceneManagement;
 
 namespace HatzeLaboratory.GameBasicSystem.Runtime.Scene
 {
+    /// <summary>
+    /// Addressables を使用してシーン遷移を管理するシングルトンクラス。
+    /// シーンは Project Settings > GameBasicSystem に登録した SceneType 名で識別されます。
+    /// </summary>
     public sealed class SceneController : SingletonBehaviour<SceneController>
     {
         private string _currentSceneTypeName;
         private AsyncOperationHandle<SceneInstance> _currentSceneHandle;
 
+        /// <summary>
+        /// 指定した SceneType 名に対応するシーンを非同期でロードします。
+        /// 既に同じシーンがアクティブな場合は何もしません。
+        /// </summary>
+        /// <param name="sceneTypeName">Project Settings > GameBasicSystemで設定されたシーンの名前</param>
+        /// <param name="cancellationToken">実際のシーンロードが始まる前のキャンセル用トークン</param>
+        /// <param name="onEndCallback">シーンロード完了後に呼び出されるコールバック</param>
         public async UniTask LoadSceneAsync(string sceneTypeName, CancellationToken cancellationToken, Action onEndCallback)
         {
             if (_currentSceneTypeName == sceneTypeName)
@@ -37,10 +48,10 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Scene
                 return;
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
             AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(address, LoadSceneMode.Single);
             await handle.ToUniTask(this);
 
-            cancellationToken.ThrowIfCancellationRequested();
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 SetActiveScene(handle.Result);
@@ -55,6 +66,10 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Scene
             onEndCallback?.Invoke();
         }
 
+        /// <summary>
+        /// 現在アクティブなシーンの SceneType 名を返します。
+        /// </summary>
+        /// <returns>現在アクティブなシーンの名前</returns>
         public string GetCurrentSceneType()
         {
             return _currentSceneTypeName;

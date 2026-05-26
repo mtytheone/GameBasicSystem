@@ -19,6 +19,8 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
         private GameBasicSystemSettingData SettingData => GameBasicSystemSettingData.Instance;
         private List<GameBasicSystemSettingData.PlayerBuildTaskData> TaskDataList => SettingData.PlayerBuildTaskDataList;
 
+        string ISettingProviderDrawer.SectionTitle => "Player Build Task Setting";
+
         void ISettingProviderDrawer.Draw()
         {
             _reorderableList.DoLayoutList();

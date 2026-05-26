@@ -11,15 +11,47 @@ using UnityEditor;
 
 namespace HatzeLaboratory.GameBasicSystem.Runtime.Addressable
 {
+    /// <summary>
+    /// Addressables のパス定数を提供するユーティリティクラス。
+    /// パスは Project Settings &gt; GameBasicSystem の設定とアプリバージョンに基づいて動的に生成されます。
+    /// </summary>
     public static class AddressableDefine
     {
-        public const string RootDirectoryName = "BuiltInAA";
+        /// <summary>
+        /// Addressables アセットのルートディレクトリ名を取得します。
+        /// Project Settings で未設定の場合は "BuiltInAA" を返します。
+        /// </summary>
+        public static string RootDirectoryName
+        {
+            get
+            {
+                if (!GameBasicSystemSettingData.Instance)
+                {
+                    return "BuiltInAA";
+                }
 
+                string rootDirectoryPath = GameBasicSystemSettingData.Instance.AddressableAssetRootDirectory;
+                if (string.IsNullOrEmpty(rootDirectoryPath))
+                {
+                    return "BuiltInAA";
+                }
+
+                return Path.GetFileName(rootDirectoryPath);
+            }
+        }
 
 #if UNITY_EDITOR
+        /// <summary>
+        /// Addressables アセットのビルド出力先パスを取得します（Editor のみ）。
+        /// パス形式: <c>{ProjectRoot}/{RootDir}/{Version}/{Platform}/</c>
+        /// </summary>
         public static string SaveAddressableAssetPath => GetSaveAddressableAssetPath();
 #endif
 
+        /// <summary>
+        /// Addressables アセットの実行時読み込みパスを取得します。
+        /// パス形式: <c>StreamingAssets/{RootDir}/{Version}/{Platform}/</c>
+        /// </summary>
         public static string LoadAddressableAssetPath => GetLoadAddressableAssetPath();
 
 

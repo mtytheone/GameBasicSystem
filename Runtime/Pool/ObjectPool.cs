@@ -5,13 +5,25 @@ using UnityEngine;
 
 namespace HatzeLaboratory.GameBasicSystem.Runtime.Pool
 {
+    /// <summary>
+    /// <see cref="IObjectPoolItem"/> を管理するオブジェクトプール。
+    /// 固定容量で初期化され、アイテムの取得・返却を行います。
+    /// </summary>
     public sealed class ObjectPool
     {
         private readonly List<PoolItemData> _itemList = new();
         private readonly Queue<int> _availableIndexQueue = new();
 
+        /// <summary>
+        /// プール内の総アイテム数を取得
+        /// </summary>
         public int Count => _itemList.Count;
 
+        /// <summary>
+        /// 指定した容量でプールを初期化し、アイテムを生成
+        /// </summary>
+        /// <param name="capacity">プールに生成するアイテム数。1 以上を指定してください。</param>
+        /// <param name="poolItemCreateFunction">アイテムを生成する関数</param>
         public ObjectPool(int capacity, Func<IObjectPoolItem> poolItemCreateFunction)
         {
             if (capacity <= 0)
@@ -45,6 +57,10 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Pool
             }
         }
 
+        /// <summary>
+        /// プールからアイテムを取得
+        /// </summary>
+        /// <returns>利用可能なアイテム。空きがない場合は <c>null</c></returns>
         public IObjectPoolItem GetItem()
         {
             if (_availableIndexQueue.Count == 0)
@@ -61,11 +77,14 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Pool
                 return null;
             }
 
-            data.Item.Show();
             data.IsUsed = true;
             return data.Item;
         }
 
+        /// <summary>
+        /// アイテムをプールに返却。返却されたアイテムは自動的に <see cref="IObjectPoolItem.Hide"/> が呼ばれます。
+        /// </summary>
+        /// <param name="item">返却するアイテム</param>
         public void ReturnItem(IObjectPoolItem item)
         {
             if (item == null)
@@ -93,6 +112,9 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Pool
             _availableIndexQueue.Enqueue(index);
         }
 
+        /// <summary>
+        /// 使用中のすべてのアイテムをプールに返却
+        /// </summary>
         public void ReturnAllItems()
         {
             for (int i = 0; i < _itemList.Count; i++)

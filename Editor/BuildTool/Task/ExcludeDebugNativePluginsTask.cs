@@ -2,7 +2,7 @@ using HatzeLaboratory.GameBasicSystem.Editor.BuildTool.Interface;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 
-namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool
+namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool.Task
 {
     public class ExcludeDebugNativePluginsTask : IPlayerBuildTask
     {

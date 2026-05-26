@@ -2,6 +2,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Interface
 {
     public interface ISettingProviderDrawer
     {
-        public void Draw();
+        string SectionTitle { get; }
+        void Draw();
     }
 }

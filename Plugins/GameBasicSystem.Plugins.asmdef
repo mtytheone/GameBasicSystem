@@ -1,6 +1,6 @@
 {
     "name": "HatzeLaboratory.GameBasicSystem.Plugins",
-    "rootNamespace": "",
+    "rootNamespace": "HatzeLaboratory.GameBasicSystem.Plugins",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

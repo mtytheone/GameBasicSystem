@@ -6,26 +6,88 @@ using UnityEngine;
 
 namespace HatzeLaboratory.GameBasicSystem.Runtime.System
 {
+    /// <summary>
+    /// プラットフォーム判定のユーティリティクラス。
+    /// <see cref="RuntimePlatform"/> や <see cref="BuildTarget"/> から統一されたプラットフォーム名を取得できます。
+    /// </summary>
     public static class PlatformDefine
     {
+        /// <summary>
+        /// プラットフォームの種類
+        /// </summary>
         public enum PlatformType
         {
+            /// <summary>
+            /// macOS
+            /// </summary>
             Mac,
+
+            /// <summary>
+            /// Windows
+            /// </summary>
             Windows,
+
+            /// <summary>
+            /// iOS
+            /// </summary>
             iOS,
+
+            /// <summary>
+            /// Android
+            /// </summary>
             Android,
+
+            /// <summary>
+            /// Linux
+            /// </summary>
             Linux,
+
+            /// <summary>
+            /// WebGL
+            /// </summary>
             WebGL,
+
+            /// <summary>
+            /// Universal Windows Platform
+            /// </summary>
             UWP,
+
+            /// <summary>
+            /// PlayStation4
+            /// </summary>
             PS4,
+
+            /// <summary>
+            /// XboxOne
+            /// </summary>
             XboxOne,
+
+            /// <summary>
+            /// Nintendo Switch
+            /// </summary>
             Switch,
+
+            /// <summary>
+            /// PlayStation5
+            /// </summary>
             PS5,
+
+            /// <summary>
+            /// Apple Vision Pro
+            /// </summary>
             VisionOS,
+
+            /// <summary>
+            /// 上記以外の不明なプラットフォーム
+            /// </summary>
             Unknown
         }
 
-
+        /// <summary>
+        /// <see cref="RuntimePlatform"/> から <see cref="PlatformType"/> の名前文字列を返します。
+        /// </summary>
+        /// <param name="platform">判定する RuntimePlatform</param>
+        /// <returns><see cref="PlatformType"/> の名前文字列</returns>
         public static string GetPlatformName(RuntimePlatform platform)
         {
             switch (platform)
@@ -84,6 +146,11 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.System
         }
 
 #if UNITY_EDITOR
+        /// <summary>
+        /// <see cref="BuildTarget"/> から <see cref="PlatformType"/> の名前文字列を返します。
+        /// </summary>
+        /// <param name="platform">判定する BuildTarget</param>
+        /// <returns><see cref="PlatformType"/> の名前文字列</returns>
         public static string GetPlatformName(BuildTarget platform)
         {
             switch (platform)
