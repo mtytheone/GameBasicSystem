@@ -25,7 +25,7 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Input
         {
             if (RepeatDelay <= 0 || RepeatInterval <= 0)
             {
-                Debug.LogError($"{nameof(RepeatDelay)}と{nameof(RepeatInterval)}は0より大きい値を設定してください。");
+                Debug.LogError($"{nameof(RepeatDelay)} and {nameof(RepeatInterval)} must be greater than 0.");
                 return;
             }
 

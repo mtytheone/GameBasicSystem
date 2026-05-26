@@ -8,7 +8,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool
+namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool.Task
 {
     public sealed class BootSceneTask : IPlayerBuildTask
     {

@@ -1,6 +1,6 @@
 using HatzeLaboratory.GameBasicSystem.Runtime.Scene;
 using HatzeLaboratory.GameBasicSystem.Runtime.Sound;
-using HatzeLaboratory.GameBasicSystem.Runtime.Backend.System.UI;
+using HatzeLaboratory.GameBasicSystem.Runtime.UI;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -49,8 +49,8 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Creation
             PrefabUtility.SaveAsPrefabAsset(manager, outputPath, out bool isSuccess);
             if (!isSuccess)
             {
-                string message = "GameObjectの作成に失敗しました。";
-                EditorUtility.DisplayDialog("GameObject作成", message, "OK");
+                string message = "Failed to create GameObject.";
+                EditorUtility.DisplayDialog("Create GameObject", message, "OK");
             }
 
             // Prefab作成後に作成したPrefabを選択状態にする

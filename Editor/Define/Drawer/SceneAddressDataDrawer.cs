@@ -18,6 +18,8 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
         private GameBasicSystemSettingData SettingData => GameBasicSystemSettingData.Instance;
         private List<GameBasicSystemSettingData.SceneAddressData> SceneAddressDataList => SettingData.SceneAddressDataList;
 
+        string ISettingProviderDrawer.SectionTitle => "Scene Address Data";
+
         void ISettingProviderDrawer.Draw()
         {
             _reorderableList.DoLayoutList();
@@ -43,11 +45,11 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
                     rect.width = applyButtonWidth;
                     if (GUI.Button(rect, "Apply", EditorStyles.miniButton))
                     {
-                        bool isSuccess = _typeNameEnumCreator.CreateModalNameEnum();
+                        bool isSuccess = _typeNameEnumCreator.CreateEnum();
                         if (!isSuccess)
                         {
-                            const string title = "シーンタイプEnum作成";
-                            const string message = "シーンタイプのEnum作成に失敗しました。";
+                            const string title = "Create Scene Type Enum";
+                            const string message = "Failed to create scene type name enum.";
                             EditorUtility.DisplayDialog(title, message, "OK");
                         }
                     }

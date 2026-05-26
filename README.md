@@ -1,99 +1,101 @@
 # HatzeGameBasicSystem
 
-Unity ゲーム開発の基盤となる共通システムを提供する UPM パッケージです。
+> [日本語版 README はこちら](README.ja.md)
 
-## 動作環境
+A UPM package providing common systems for Unity game development.
 
-- Unity 6000.0 以降
-- UniTask（別途インストール必要）
-- Addressables 2.2.2 以降
-- Input System 1.13.1 以降
+## Requirements
 
-## インストール
+- Unity 6000.0 or later
+- UniTask (install separately)
+- Addressables 2.2.2 or later
+- Input System 1.13.1 or later
 
-### 1. UniTask をインストール（先に行うこと）
+## Installation
 
-`Packages/manifest.json` の `dependencies` に追加：
+### 1. Install UniTask first
+
+Add to `dependencies` in `Packages/manifest.json`:
 
 ```json
 "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
 ```
 
-### 2. このパッケージをインストール
+### 2. Install this package
 
-同じく `dependencies` に追加：
+Add to the same `dependencies`:
 
 ```json
 "com.hatzelaboratory.gamebasicsystem": "https://github.com/mtytheone/GameBasicSystem.git"
 ```
 
-### 3. 設定ファイルを生成
+### 3. Generate the settings asset
 
-Unity メニュー **Edit > Project Settings > GameBasicSystem** を開き、「生成する」ボタンをクリックします。
+Open **Edit > Project Settings > GameBasicSystem** in the Unity menu and click the **"Generate"** button.
 
 ---
 
-## 機能一覧
+## Features
 
 ### Runtime
 
-| 機能 | 説明 |
+| Feature | Description |
 |---|---|
-| `Singleton<T>` / `SingletonBehaviour<T>` | シングルトンパターン |
-| `GameSystemBase` | ゲームシステムの基底クラス |
-| `SceneController` | Addressables を使ったシーン遷移管理 |
-| `BootSceneController` | 起動シーンの制御 |
-| `SoundManager` / `BgmController` / `SeController` | BGM・SE の再生管理 |
-| `ModalManager` / `IModal` | モーダル UI の表示管理 |
-| `ObjectPool<T>` / `IObjectPoolItem` | オブジェクトプール |
-| `SaveDataManagerBase` | セーブ・ロードの基底クラス（暗号化・圧縮対応） |
-| `KeyRepeatInteraction` | Input System 向けキーリピートインタラクション |
-| `AddressableDefine` | Addressables パス定数 |
-| `PlatformDefine` | プラットフォーム判定定数 |
-| `GameBasicSystemSettingData` | パッケージ設定データ（ScriptableObject） |
+| `Singleton<T>` / `SingletonBehaviour<T>` | Singleton pattern |
+| `GameSystemBase` | Base class for game systems |
+| `SceneController` | Scene transition management using Addressables |
+| `BootSceneController` | Boot scene control |
+| `SoundManager` / `BgmController` / `SeController` | BGM and SE playback management |
+| `ModalManager` / `IModal` | Modal UI management |
+| `ObjectPool<T>` / `IObjectPoolItem` | Object pooling |
+| `SaveDataManagerBase` | Save/load base class with encryption and compression |
+| `KeyRepeatInteraction` | Key repeat interaction for Input System |
+| `AddressableDefine` | Addressables path constants |
+| `PlatformDefine` | Platform detection constants |
+| `GameBasicSystemSettingData` | Package settings data (ScriptableObject) |
 
-**セーブ・ロード オプション：**
-- 暗号化：`AESCryptor`（AES）
-- 圧縮：`GZipCompressor`（GZip）
-- シリアライズ：`JsonSerializer`（JSON）
+**Save/Load options:**
+- Encryption: `AESCryptor` (AES-256-CBC + HMAC-SHA256)
+- Compression: `GZipCompressor` (GZip)
+- Serialization: `JsonSerializer` (JSON)
 
-**開発用 UI（DEBUG ビルドのみ）：**
-- `DevelopmentInfoViewer` — FPS などの開発情報表示
-- `MemoryViewerCanvasController` — メモリ使用量のバー表示
-- `VersionTextLabelController` — ビルドタイムスタンプ表示
+**Development UI (DEBUG builds only):**
+- `DevelopmentInfoViewer` — Displays development info such as FPS
+- `MemoryViewerCanvasController` — Memory usage bar display
+- `VersionTextLabelController` — Build timestamp display
 
 ### Editor
 
-| 機能 | 説明 |
+| Feature | Description |
 |---|---|
-| `PlayerBuildTool` | カスタムビルドパイプライン（タスク方式） |
-| `BootSceneTask` | ビルド時のブートシーン自動設定 |
-| `ExcludeDebugNativePluginsTask` | Release ビルド時にデバッグ用ネイティブプラグインを除外 |
-| `AddressableBuildTool` | Addressables のビルドツール |
-| `AssetAddressManagementTool` | アドレス管理ツール |
-| `ModalNameEnumCreator` | ModalType enum の自動生成 |
-| `SceneTypeNameEnumCreator` | SceneType enum の自動生成 |
-| `ManagerCreator` | マネージャークラスの雛形生成 |
+| `PlayerBuildTool` | Custom build pipeline (task-based) |
+| `BootSceneTask` | Automatically sets the boot scene at build time |
+| `ExcludeDebugNativePluginsTask` | Excludes debug native plugins in Release builds |
+| `AddressableBuildTool` | Addressables build tool |
+| `AssetAddressManagementTool` | Address management tool |
+| `ModalNameEnumCreator` | Auto-generates ModalType enum |
+| `SceneTypeNameEnumCreator` | Auto-generates SceneType enum |
+| `ManagerCreator` | Generates manager class templates |
 
 ---
 
-## セットアップ手順
+## Setup
 
-### GameSystemBase を継承する
+### Extend GameSystemBase
 
 ```csharp
 public class MyGameSystem : GameSystemBase
 {
     protected override async UniTask OnInitialize()
     {
-        // 初期化処理
+        // initialization
     }
 }
 ```
 
-### カスタムビルドタスクを追加する
+### Add a custom build task
 
-`IPlayerBuildTask` を実装し、Project Settings > GameBasicSystem のビルドタスク一覧に登録します。
+Implement `IPlayerBuildTask` and register it in the build task list under Project Settings > GameBasicSystem.
 
 ```csharp
 public class MyBuildTask : IPlayerBuildTask
@@ -105,6 +107,19 @@ public class MyBuildTask : IPlayerBuildTask
 
 ---
 
-## ライセンス
+## License
 
-© Hatze Laboratory 2026
+Copyright © 2026 Hatze Laboratory. All Rights Reserved.
+
+This software is published and reference purposes only.
+Use, copying, distribution, or modification without permission from the author or Hatze Laboratory is prohibited.
+
+---
+
+## Third-Party Notices
+
+### UniTask
+
+- **Author:** Yoshifumi Kawai / Cysharp, Inc.
+- **Repository:** https://github.com/Cysharp/UniTask
+- **License:** MIT License — Copyright (c) 2019 Yoshifumi Kawai / Cysharp, Inc.

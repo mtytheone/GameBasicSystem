@@ -4,10 +4,18 @@ using UnityEngine.Assertions;
 
 namespace HatzeLaboratory.GameBasicSystem.Runtime.Sound
 {
+    /// <summary>
+    /// SE の再生を管理するクラス。
+    /// <see cref="SoundManager"/> から内部的に使用されます。直接インスタンス化は不要です。
+    /// </summary>
     public sealed class SeController
     {
         private AudioSource[] _seAudioSourceList;
 
+        /// <summary>
+        /// 指定したAudioSource配列でSeControllerを初期化します。
+        /// </summary>
+        /// <param name="seAudioSourceList">SE 再生用のAudioSource配列</param>
         public SeController(AudioSource[] seAudioSourceList)
         {
             foreach (AudioSource audioSource in seAudioSourceList)

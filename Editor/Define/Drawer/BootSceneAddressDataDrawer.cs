@@ -9,6 +9,8 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
         private const string DEVELOPMENT_LABEL_TEXT = "DevelopmentSceneAddress";
         private const string PRODUCTION_LABEL_TEXT = "ProductionSceneAddress";
 
+        string ISettingProviderDrawer.SectionTitle => "Boot Scene Address Data";
+
         void ISettingProviderDrawer.Draw()
         {
             GameBasicSystemSettingData settingData = GameBasicSystemSettingData.Instance;

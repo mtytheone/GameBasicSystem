@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using HatzeLaboratory.GameBasicSystem.Runtime.SaveData.Interface;
+using HatzeLaboratory.GameBasicSystem.Runtime.System;
 using System;
 using System.IO;
 using System.Text;
@@ -10,15 +11,24 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
 {
     public sealed class DataStreamer : IStreamer
     {
-        private const string SaveDataFileName = "SaveData.hld";
-        private readonly string _saveDataPath = Path.Combine(Application.persistentDataPath, SaveDataFileName);
+        private string SaveDataPath
+        {
+            get
+            {
+                string fileName = GameBasicSystemSettingData.Instance != null
+                    ? GameBasicSystemSettingData.Instance.SaveDataFileName
+                    : "SaveData.hld";
+
+                return Path.Combine(Application.persistentDataPath, fileName);
+            }
+        }
 
 
         void IStreamer.Save(byte[] data)
         {
             try
             {
-                using (FileStream sourceFileStrean = new(_saveDataPath, FileMode.OpenOrCreate, FileAccess.Write))
+                using (FileStream sourceFileStrean = new(SaveDataPath , FileMode.OpenOrCreate, FileAccess.Write))
                 using (StreamWriter writer = new(sourceFileStrean, Encoding.UTF8))
                 {
                     string base64 = Convert.ToBase64String(data);
@@ -35,7 +45,7 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
         {
             try
             {
-                using (FileStream sourceFileStrean = new(_saveDataPath, FileMode.OpenOrCreate, FileAccess.Write))
+                using (FileStream sourceFileStrean = new(SaveDataPath , FileMode.OpenOrCreate, FileAccess.Write))
                 using (StreamWriter writer = new(sourceFileStrean, Encoding.UTF8))
                 {
                     string base64 = Convert.ToBase64String(data);
@@ -57,7 +67,7 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
         {
             try
             {
-                using (FileStream fileStrean = new(_saveDataPath, FileMode.Open, FileAccess.Read))
+                using (FileStream fileStrean = new(SaveDataPath , FileMode.Open, FileAccess.Read))
                 using (StreamReader streamReader = new(fileStrean, Encoding.UTF8, false))
                 {
                     string base64 = streamReader.ReadToEnd();
@@ -80,7 +90,7 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.SaveData
         {
             try
             {
-                using (FileStream fileStrean = new(_saveDataPath, FileMode.Open, FileAccess.Read))
+                using (FileStream fileStrean = new(SaveDataPath , FileMode.Open, FileAccess.Read))
                 using (StreamReader streamReader = new(fileStrean, Encoding.UTF8, false))
                 {
                     cancellationtoken.ThrowIfCancellationRequested();

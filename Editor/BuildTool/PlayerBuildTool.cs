@@ -30,21 +30,21 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool
         };
 
 
-        [MenuItem("HatzeLaboratory/GameBasicSystem/Build/Rom/Debug")]
+        [MenuItem("HatzeLaboratory/GameBasicSystem/Build/Rom/Debug", false, 0)]
         private static void CreateDebugRom()
         {
             bool isZipFileNeeded = ShowAskingCreatingZipFileDialog();
             BuildRom(BuildType.Debug, isZipFileNeeded);
         }
 
-        [MenuItem("HatzeLaboratory/GameBasicSystem/Build/Rom/Development")]
+        [MenuItem("HatzeLaboratory/GameBasicSystem/Build/Rom/Development", false, 1)]
         private static void CreateDevelopmentRom()
         {
             bool isZipFileNeeded = ShowAskingCreatingZipFileDialog();
             BuildRom(BuildType.Development, isZipFileNeeded);
         }
 
-        [MenuItem("HatzeLaboratory/GameBasicSystem/Build/Rom/Release")]
+        [MenuItem("HatzeLaboratory/GameBasicSystem/Build/Rom/Release", false, 2)]
         private static void CreateReleaseRom()
         {
             bool isZipFileNeeded = ShowAskingCreatingZipFileDialog();
@@ -53,7 +53,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool
 
         private static bool ShowAskingCreatingZipFileDialog()
         {
-            return EditorUtility.DisplayDialog("Romビルド", "Zip化したRomを用意しますか?", "はい", "いいえ");
+            return EditorUtility.DisplayDialog("Rom Build", "Do you want to create a zipped Rom?", "Yes", "No");
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool
             }
 
             PlayBeep();
-            EditorUtility.DisplayDialog("Romビルド結果", message, "OK");
+            EditorUtility.DisplayDialog("Rom Build Result", message, "OK");
         }
 
         private static void CreateZipFile(BuildType buildType, BuildInfo buildInfo)

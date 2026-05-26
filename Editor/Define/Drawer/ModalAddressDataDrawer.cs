@@ -18,6 +18,8 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
         private GameBasicSystemSettingData SettingData => GameBasicSystemSettingData.Instance;
         private List<GameBasicSystemSettingData.ModalAddressData> ModalAddressDataList => SettingData.ModalAddressDataList;
 
+        string ISettingProviderDrawer.SectionTitle => "Modal Address Setting";
+
         void ISettingProviderDrawer.Draw()
         {
             _reorderableList.DoLayoutList();
@@ -43,11 +45,11 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
                     rect.width = applyButtonWidth;
                     if (GUI.Button(rect, "Apply", EditorStyles.miniButton))
                     {
-                        bool isSuccess = _modalNameCreator.CreateModalNameEnum();
+                        bool isSuccess = _modalNameCreator.CreateEnum();
                         if (!isSuccess)
                         {
-                            const string title = "モーダルEnum作成";
-                            const string message = "モーダル名のEnum作成に失敗しました。";
+                            const string title = "Create Modal Enum";
+                            const string message = "Failed to create modal name enum.";
                             EditorUtility.DisplayDialog(title, message, "OK");
                         }
                     }

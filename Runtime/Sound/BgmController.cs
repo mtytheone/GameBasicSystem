@@ -6,6 +6,10 @@ using UnityEngine.Assertions;
 
 namespace HatzeLaboratory.GameBasicSystem.Runtime.Sound
 {
+    /// <summary>
+    /// BGM の再生・停止・フェードを管理するクラス。
+    /// <see cref="SoundManager"/> から内部的に使用されます。直接インスタンス化は不要です。
+    /// </summary>
     public sealed class BgmController
     {
         private AudioSource _bgmAudioSource;
@@ -13,6 +17,11 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Sound
         private CancellationTokenSource _fadeInCancellationTokenSource;
         private CancellationTokenSource _fadeOutCancellationTokenSource;
 
+        /// <summary>
+        /// 指定した AudioSource で BgmController を初期化します。
+        /// </summary>
+        /// <param name="bgmAudioSource">メイン BGM 再生用の AudioSource。</param>
+        /// <param name="crossfadeAudioSource">クロスフェード用の AudioSource。</param>
         public BgmController(AudioSource bgmAudioSource, AudioSource crossfadeAudioSource)
         {
             Assert.IsNotNull(bgmAudioSource, "BGM Audio Source cannot be null.");

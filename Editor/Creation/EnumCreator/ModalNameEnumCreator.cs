@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 
 namespace HatzeLaboratory.GameBasicSystem.Editor.Creation.EnumCreator
 {
@@ -12,20 +13,13 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Creation.EnumCreator
         private const string FILE_NAME = "ModalType.cs";
         private const string FILE_PATH = "HatzeLaboratory/Scripts/Modal";
 
-        /// <summary>
-        /// ModalType.csを作成
-        /// </summary>
-        /// <returns>
-        /// <para>true: ファイルの作成に成功</para>
-        /// <para>false: ファイルの作成に失敗</para>
-        /// </returns>
-        internal bool CreateModalNameEnum()
-        {
-            return CreateEnum();
-        }
-
         protected override void WriteData(List<string> outputStringList)
         {
+            if (!GameBasicSystemSettingData.Instance)
+            {
+                return;
+            }
+
             List<GameBasicSystemSettingData.ModalAddressData> modalAddressDataList = GameBasicSystemSettingData.Instance.ModalAddressDataList;
             foreach (GameBasicSystemSettingData.ModalAddressData modalAddressData in modalAddressDataList)
             {
@@ -66,7 +60,17 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Creation.EnumCreator
 
         protected override string GetEnumName()
         {
-            return "ModalType";
+            return Path.GetFileNameWithoutExtension(FILE_NAME);
+        }
+
+        [InitializeOnLoadMethod]
+        private static void CheckEnumFileExistence()
+        {
+            ModalNameEnumCreator enumCreator = new();
+            if (!enumCreator.IsEnumExisted())
+            {
+                enumCreator.CreateEnum();
+            }
         }
     }
 }

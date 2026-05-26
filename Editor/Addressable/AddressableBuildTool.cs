@@ -11,10 +11,10 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Addressable
 {
     public sealed class AddressableBuildTool
     {
-        private const string COPYING_FILE_PROGRESS_BAR_TITLE = "AddressableAsset追加";
-        private const string COPYING_FILE_PROGRESS_BAR_TEXT = "Assets内にファイルをコピー中...";
+        private const string COPYING_FILE_PROGRESS_BAR_TITLE = "Adding AddressableAsset";
+        private const string COPYING_FILE_PROGRESS_BAR_TEXT = "Copying files into Assets...";
 
-        [MenuItem("HatzeLaboratory/GameBasicSystem/Addressables/BuildAA", false, 0)]
+        [MenuItem("HatzeLaboratory/GameBasicSystem/Addressables/BuildAA", false, -300)]
         public static void BuildAddressableAssets()
         {
             try
@@ -40,7 +40,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Addressable
             AddressableAssetSettings.BuildPlayerContent();
         }
 
-        [MenuItem("HatzeLaboratory/GameBasicSystem/Addressables/AddAA")]
+        [MenuItem("HatzeLaboratory/GameBasicSystem/Addressables/AddAA", false, -100)]
         public static void AddAddressableAssetsInStreamingDirectory()
         {
             string sourceDirectory = GetLocalBuildPath();
@@ -55,7 +55,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Addressable
             Debug.Log("Addressable Asset Copy Completed.");
         }
 
-        [MenuItem("HatzeLaboratory/GameBasicSystem/Addressables/RemoveAA")]
+        [MenuItem("HatzeLaboratory/GameBasicSystem/Addressables/RemoveAA", false, -99)]
         public static void RemoveAddressableAssetsInStreamingDirectory()
         {
             try
@@ -92,7 +92,10 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Addressable
             try
             {
                 string targetDirectory = Path.Combine(Application.streamingAssetsPath, AddressableDefine.RootDirectoryName);
-                Directory.Delete(targetDirectory, recursive: true);
+                if (Directory.Exists(targetDirectory))
+                {
+                    Directory.Delete(targetDirectory, recursive: true);
+                }
             }
             catch(Exception e)
             {
@@ -189,7 +192,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Addressable
             AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
             if (settings == null)
             {
-                Debug.LogError("AddressableAssetSettingsが見つかりません。");
+                Debug.LogError("AddressableAssetSettings not found.");
                 return string.Empty;
             }
 
@@ -203,7 +206,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Addressable
             AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
             if (settings == null)
             {
-                Debug.LogError("AddressableAssetSettingsが見つかりません。");
+                Debug.LogError("AddressableAssetSettings not found.");
                 return string.Empty;
             }
 
