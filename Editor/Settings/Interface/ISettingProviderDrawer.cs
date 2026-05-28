@@ -1,4 +1,4 @@
-namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Interface
+namespace HatzeLaboratory.GameBasicSystem.Editor.Settings.Interface
 {
     public interface ISettingProviderDrawer
     {

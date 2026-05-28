@@ -18,6 +18,9 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.System
         private string _addressableAssetRootDirectory;
 
         [SerializeField]
+        private string _buildAddressableAssetSaveDirectory;
+
+        [SerializeField]
         private List<PlayerBuildTaskData> _playerBuildTaskDataList;
 
         [SerializeField]
@@ -61,6 +64,11 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.System
         /// Addressablesアセットのルートディレクトリパスを取得します。
         /// </summary>
         public string AddressableAssetRootDirectory => _addressableAssetRootDirectory;
+
+        /// <summary>
+        /// ビルドされたAddressablesアセットの保存ディレクトリパスを取得します。
+        /// </summary>
+        public string BuildAddressableAssetSaveDirectory => _buildAddressableAssetSaveDirectory;
 
         /// <summary>
         /// プレイヤービルドタスクの設定リストを取得します。
@@ -148,6 +156,15 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.System
         public void SetAddressableAssetRootDirectory(string path)
         {
             _addressableAssetRootDirectory = path;
+        }
+
+        /// <summary>
+        /// ビルドされたAddressablesアセットの保存ディレクトリパスを設定します。
+        /// </summary>
+        /// <param name="path">設定するパス</param>
+        public void SetBuildAddressableAssetSaveDirectory(string path)
+        {
+            _buildAddressableAssetSaveDirectory = path;
         }
 
         /// <summary>
@@ -312,9 +329,9 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.System
             public string SceneAddress;
 
             /// <summary>
-            /// Editor専用シーンかどうか
+            /// 開発専用シーンかどうか
             /// </summary>
-            public bool IsEditorOnly;
+            public bool IsDevelopmentOnly;
         }
     }
 

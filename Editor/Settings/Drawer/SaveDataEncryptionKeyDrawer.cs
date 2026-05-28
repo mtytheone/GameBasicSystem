@@ -1,10 +1,10 @@
-using HatzeLaboratory.GameBasicSystem.Editor.Define.Interface;
+using HatzeLaboratory.GameBasicSystem.Editor.Settings.Interface;
 using HatzeLaboratory.GameBasicSystem.Runtime.System;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
+namespace HatzeLaboratory.GameBasicSystem.Editor.Settings.Drawer
 {
     public class SaveDataEncryptionKeyDrawer : ISettingProviderDrawer
     {

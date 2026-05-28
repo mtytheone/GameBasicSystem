@@ -1,10 +1,10 @@
 using HatzeLaboratory.GameBasicSystem.Editor.Creation.EnumCreator;
-using HatzeLaboratory.GameBasicSystem.Editor.Define.Interface;
+using HatzeLaboratory.GameBasicSystem.Editor.Settings.Interface;
 using HatzeLaboratory.GameBasicSystem.Runtime.System;
 using UnityEditor;
 using UnityEngine.InputSystem;
 
-namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
+namespace HatzeLaboratory.GameBasicSystem.Editor.Settings.Drawer
 {
     public class InputActionAssetDrawer : ISettingProviderDrawer
     {

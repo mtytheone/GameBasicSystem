@@ -1,5 +1,5 @@
 using HatzeLaboratory.GameBasicSystem.Editor.BuildTool.Interface;
-using HatzeLaboratory.GameBasicSystem.Editor.Define.Interface;
+using HatzeLaboratory.GameBasicSystem.Editor.Settings.Interface;
 using HatzeLaboratory.GameBasicSystem.Runtime.System;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
+namespace HatzeLaboratory.GameBasicSystem.Editor.Settings.Drawer
 {
     public sealed class EnablePlayerBuildTaskDrawer : ISettingProviderDrawer
     {
@@ -85,6 +85,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
             return new(TaskDataList, typeof(Type))
             {
                 draggable = true,
+                footerHeight = 0,
                 drawHeaderCallback = rect =>
                 {
                     rect.height = EditorGUIUtility.singleLineHeight;

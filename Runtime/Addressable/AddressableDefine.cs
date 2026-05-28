@@ -60,6 +60,15 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Addressable
         {
             // <Root>/BuildInAA/<Version>/<PlatformName>/
             string projectRootDirectory = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
+            if (GameBasicSystemSettingData.Instance)
+            {
+                string rootDirectoryPath = GameBasicSystemSettingData.Instance.AddressableAssetRootDirectory;
+                if (!string.IsNullOrEmpty(rootDirectoryPath))
+                {
+                    projectRootDirectory = rootDirectoryPath;
+                }
+            }
+
             return Path.Combine
             (
                 projectRootDirectory,

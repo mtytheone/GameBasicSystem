@@ -1,5 +1,5 @@
-using HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer;
-using HatzeLaboratory.GameBasicSystem.Editor.Define.Interface;
+using HatzeLaboratory.GameBasicSystem.Editor.Settings.Drawer;
+using HatzeLaboratory.GameBasicSystem.Editor.Settings.Interface;
 using HatzeLaboratory.GameBasicSystem.Runtime.System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace HatzeLaboratory.GameBasicSystem.Editor.Define
+namespace HatzeLaboratory.GameBasicSystem.Editor.Settings
 {
     public sealed class GameBasicSystemSettingProvider : SettingsProvider
     {
@@ -128,7 +128,8 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Define
         private void DrawValidationStatus(GameBasicSystemSettingData instance)
         {
             EditorGUILayout.LabelField("Setup Status", EditorStyles.boldLabel);
-            bool hasRootDirectory = !string.IsNullOrWhiteSpace(instance.AddressableAssetRootDirectory);
+            bool hasRootDirectory = !string.IsNullOrWhiteSpace(instance.AddressableAssetRootDirectory)
+                && !string.IsNullOrWhiteSpace(instance.BuildAddressableAssetSaveDirectory);
             bool hasInputActionAsset = instance.InputActionAsset != null;
             bool hasEncryptionKey = !string.IsNullOrWhiteSpace(instance.SaveDataEncryptionKey)
                 && Encoding.UTF8.GetByteCount(instance.SaveDataEncryptionKey) == 32;

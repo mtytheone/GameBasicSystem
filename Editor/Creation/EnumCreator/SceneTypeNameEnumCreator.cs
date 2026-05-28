@@ -29,7 +29,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Creation.EnumCreator
                     continue;
                 }
 
-                if (sceneAddressData.IsEditorOnly)
+                if (sceneAddressData.IsDevelopmentOnly)
                 {
                     continue;
                 }
@@ -42,7 +42,8 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Creation.EnumCreator
                 outputStringList.Add($"\t\t{sceneTypeName},");
             }
 
-            outputStringList.Add($"\n#if DEBUG");
+            outputStringList.Add(string.Empty);
+            outputStringList.Add("#if DEBUG");
             foreach (GameBasicSystemSettingData.SceneAddressData sceneAddressData in sceneAddressDataList)
             {
                 string sceneTypeName = sceneAddressData.SceneTypeName;
@@ -51,7 +52,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Creation.EnumCreator
                     continue;
                 }
 
-                if (!sceneAddressData.IsEditorOnly)
+                if (!sceneAddressData.IsDevelopmentOnly)
                 {
                     continue;
                 }

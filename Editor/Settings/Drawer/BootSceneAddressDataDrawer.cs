@@ -1,8 +1,8 @@
-using HatzeLaboratory.GameBasicSystem.Editor.Define.Interface;
+using HatzeLaboratory.GameBasicSystem.Editor.Settings.Interface;
 using HatzeLaboratory.GameBasicSystem.Runtime.System;
 using UnityEditor;
 
-namespace HatzeLaboratory.GameBasicSystem.Editor.Define.Drawer
+namespace HatzeLaboratory.GameBasicSystem.Editor.Settings.Drawer
 {
     public sealed class BootSceneAddressDataDrawer : ISettingProviderDrawer
     {
