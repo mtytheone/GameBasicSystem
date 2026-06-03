@@ -122,6 +122,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.Settings
                 new InputActionAssetDrawer(),
                 new SaveDataEncryptionKeyDrawer(),
                 new EnablePlayerBuildTaskDrawer(),
+                new MemoryViewerDrawer(),
             };
         }
 

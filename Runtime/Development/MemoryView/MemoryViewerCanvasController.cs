@@ -1,4 +1,5 @@
 #if DEBUG
+using HatzeLaboratory.GameBasicSystem.Runtime.System;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -10,8 +11,6 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Development.MemoryView
 {
     public class MemoryViewerCanvasController : MonoBehaviour
     {
-        private int TOTAL_MEMORY_GB_THRESHOLD = 3;
-
         private enum ProfilingType
         {
             Unity,
@@ -64,8 +63,9 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.Development.MemoryView
                 return;
             }
 
+            int threshold = GameBasicSystemSettingData.Instance.MemoryViewerThresholdGb;
             float totalUsedMemorySizeGB = GetWorkingSet() / 1024f / 1024f / 1024f;
-            _totalMemoryTextLabel.text = $"Total: {totalUsedMemorySizeGB:F2}GB / {TOTAL_MEMORY_GB_THRESHOLD}GB";
+            _totalMemoryTextLabel.text = $"Total: {totalUsedMemorySizeGB:F2}GB / {threshold}GB";
         }
 
         private void UpdateAllBarLength()

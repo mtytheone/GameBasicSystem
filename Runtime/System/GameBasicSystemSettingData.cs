@@ -42,6 +42,9 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.System
         private InputActionAsset _inputActionAsset;
 
         [SerializeField]
+        private int _memoryViewerThresholdGb = 3;
+
+        [SerializeField]
         private bool _isAddressableProfileSetupDone;
 
         /// <summary>
@@ -145,6 +148,11 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.System
         public InputActionAsset InputActionAsset => _inputActionAsset;
 
         /// <summary>
+        /// メモリビューアの最大表示メモリ量（GB）を取得します。
+        /// </summary>
+        public int MemoryViewerThresholdGb => _memoryViewerThresholdGb;
+
+        /// <summary>
         /// Addressablesプロファイルのセットアップが完了しているかどうかを取得します。
         /// </summary>
         public bool IsAddressableProfileSetupDone => _isAddressableProfileSetupDone;
@@ -192,6 +200,15 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.System
         public void SetInputActionAsset(InputActionAsset inputActionAsset)
         {
             _inputActionAsset = inputActionAsset;
+        }
+
+        /// <summary>
+        /// メモリビューアの最大表示メモリ量（GB）を設定します。
+        /// </summary>
+        /// <param name="thresholdGb">設定する値（GB）</param>
+        public void SetMemoryViewerThresholdGb(int thresholdGb)
+        {
+            _memoryViewerThresholdGb = thresholdGb;
         }
 
         /// <summary>
