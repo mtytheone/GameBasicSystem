@@ -196,6 +196,57 @@ namespace HatzeLaboratory.GameBasicSystem.Runtime.System
                     return PlatformType.Unknown.ToString();
             }
         }
+
+        /// <summary>
+        /// <see cref="BuildTarget"/> から <see cref="PlatformType"/> の名前文字列の短縮文字列を返します。
+        /// </summary>
+        /// <param name="platform">判定する BuildTarget</param>
+        /// <returns><see cref="PlatformType"/> の名前文字列の短縮文字列(3文字)</returns>
+        public static string GetShortPlatformName(BuildTarget platform)
+        {
+            switch (platform)
+            {
+                case BuildTarget.StandaloneOSX:
+                    return "Mac";
+
+                case BuildTarget.StandaloneWindows:
+                case BuildTarget.StandaloneWindows64:
+                    return "Win";
+
+                case BuildTarget.iOS:
+                    return "iOS";
+
+                case BuildTarget.Android:
+                    return "And";
+
+                case BuildTarget.WebGL:
+                    return "WGL";
+
+                case BuildTarget.WSAPlayer:
+                    return "UWP";
+
+                case BuildTarget.StandaloneLinux64:
+                    return "Lnx";
+
+                case BuildTarget.PS4:
+                    return "PS4";
+
+                case BuildTarget.XboxOne:
+                    return "Xb1";
+
+                case BuildTarget.Switch:
+                    return "Swi";
+
+                case BuildTarget.PS5:
+                    return "PS5";
+
+                case BuildTarget.VisionOS:
+                    return "Vis";
+
+                default:
+                    return "Unk";
+            }
+        }
 #endif
     }
 }

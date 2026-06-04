@@ -267,6 +267,7 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool
 
             public string VersionText => GetVersionText();
             public string PlatformName => PlatformDefine.GetPlatformName(EditorUserBuildSettings.activeBuildTarget);
+            public string ShortPlatformName => PlatformDefine.GetShortPlatformName(EditorUserBuildSettings.activeBuildTarget);
 
             public string ApplicationSaveDirectory => GetSaveDirectory(isZipFile: false);
             public string ZipFileSaveDirectory => GetSaveDirectory(isZipFile: true);
@@ -288,8 +289,8 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool
                 (
                     rootDirectory,
                     "Rom",
-                    PlatformName,
-                    _buildType.ToString(),
+                    ShortPlatformName,
+                    GetShortBuildTypeName(_buildType),
                     GetApplicationName(isZipFile).Split(".")[0],
                     isZipFile ? "Zip" : "Raw"
                 );
@@ -303,10 +304,10 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool
                 (
                     isZipFile ? "{0}_{1}_{2}_{3}_{4}.zip" : "{0}_{1}_{2}_{3}_{4}.exe",
                     Application.productName,
-                    _buildType.ToString(),
+                    GetShortBuildTypeName(_buildType),
                     VersionText,
                     Date,
-                    PlatformName
+                    ShortPlatformName
                 );
             }
 
@@ -314,6 +315,14 @@ namespace HatzeLaboratory.GameBasicSystem.Editor.BuildTool
             {
                 return Application.version.Replace(".", "");
             }
+
+            private static string GetShortBuildTypeName(BuildType buildType) => buildType switch
+            {
+                BuildType.Debug => "Dbg",
+                BuildType.Development => "Dev",
+                BuildType.Release => "Rel",
+                _ => buildType.ToString()
+            };
         }
     }
 }
